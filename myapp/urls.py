@@ -17,6 +17,8 @@ urlpatterns = [
     path('delete/<int:pk>/', views.delete_post, name='delete_post'),  # Delete a post
     path('post/<int:pk>/', views.post_detail, name='post_detail'),
     path('post/<int:pk>/like/', views.like_post, name='like_post'),
+    path('category/<int:category_id>/', views.category_posts, name='category_posts'),
+    path('tag/<slug:tag_slug>/', views.tagged_posts, name='tagged_posts'),
 
 
     # User authentication URLs

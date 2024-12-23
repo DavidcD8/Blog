@@ -16,7 +16,7 @@ class RegistrationForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']  # Fields to include in the form
+        fields = ['title', 'content', 'category', 'tags']# Fields to include in the form
 
 
 class ProfileForm(forms.ModelForm):

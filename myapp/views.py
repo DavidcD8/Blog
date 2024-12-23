@@ -15,6 +15,8 @@ from .forms import ProfileForm
 from .forms import CommentForm
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from taggit.models import Tag
+from .models import Category
 
 # all the views are defined here
 
@@ -107,7 +109,7 @@ def like_post(request, pk):
     return HttpResponseRedirect(reverse('post_detail', args=[pk]))
 
 
-    
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -156,3 +158,17 @@ def profile(request):
         'profile': profile,
         'profile_picture_url': profile_picture_url,
     })
+
+
+def category_posts(request, category_id):
+    category = get_object_or_404(Category, id=category_id)  # Check if category exists
+    posts = Post.objects.filter(category=category)         # Get posts for this category
+    
+    return render(request, 'myapp/category_posts.html', {'category': category, 'posts': posts})
+
+
+def tagged_posts(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = Post.objects.filter(tags__in=[tag])
+    
+    return render(request, 'myapp/tagged_posts.html', {'tag': tag, 'posts': posts})
