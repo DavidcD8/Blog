@@ -10,7 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
-
+from .models import Profile
+from .forms import ProfileForm
 
 
 # all the views are defined here
@@ -98,3 +99,26 @@ def login_view(request):
 
     return render(request, 'registration/login.html', {'form': form})
 
+@login_required
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+
+    # Generate the URL for the profile picture
+    if not profile.profile_picture:
+        profile_picture_url = '/static/images/default-profile-picture.jpg'  # Default image
+    else:
+        profile_picture_url = profile.profile_picture.url  # Uploaded image
+
+    return render(request, 'myapp/profile.html', {
+        'form': form,
+        'profile': profile,
+        'profile_picture_url': profile_picture_url,
+    })

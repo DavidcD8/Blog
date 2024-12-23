@@ -8,6 +8,9 @@ urlpatterns = [
     path('', views.home, name='home'),  # Home page
     path('about/', views.about, name='about'),  # About page
 
+    # User Profile
+    path('profile/', views.profile, name='profile'),
+
     # Blog post-related URLs
     path('create/', views.create_post, name='create_post'),  # Create a post
     path('edit/<int:pk>/', views.edit_post, name='edit_post'),  # Edit a post
@@ -22,4 +25,5 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),  # Password reset done
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),  # Confirm password reset
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),  # Password reset complete
+
 ]
