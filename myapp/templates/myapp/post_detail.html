@@ -8,6 +8,16 @@
     <p>No comments yet. Be the first to comment!</p>
 {% endfor %}
 
+ <!-- Likes Section -->
+ <h3>Likes: {{ post.total_likes }}</h3>
+ <form action="{% url 'like_post' post.pk %}" method="POST">
+     {% csrf_token %}
+     {% if user in post.likes.all %}
+         <button type="submit">Unlike</button>
+     {% else %}
+         <button type="submit">Like</button>
+     {% endif %}
+ </form>
 <h3>Leave a Comment</h3>
 {% if user.is_authenticated %}
     <form method="POST">

@@ -13,6 +13,8 @@ from django.http import HttpResponse
 from .models import Profile
 from .forms import ProfileForm
 from .forms import CommentForm
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # all the views are defined here
 
@@ -95,6 +97,17 @@ def post_detail(request, pk):
     })
 
 
+@login_required
+def like_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post_detail', args=[pk]))
+
+
+    
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
