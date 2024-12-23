@@ -15,6 +15,8 @@ urlpatterns = [
     path('create/', views.create_post, name='create_post'),  # Create a post
     path('edit/<int:pk>/', views.edit_post, name='edit_post'),  # Edit a post
     path('delete/<int:pk>/', views.delete_post, name='delete_post'),  # Delete a post
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+
 
     # User authentication URLs
     path('register/', views.register, name='register'),  # User registration

@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from .models import Profile
 from .forms import ProfileForm
-
+from .forms import CommentForm
 
 # all the views are defined here
 
@@ -72,6 +72,27 @@ def delete_post(request, pk):
         post.delete()
         return redirect('home')
     return render(request, 'delete_post.html', {'post': post})
+
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    comments = post.comments.all()  # Fetch all comments related to the post
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'myapp/post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'comment_form': comment_form,
+    })
 
 
 def register(request):
