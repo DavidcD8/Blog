@@ -10,16 +10,20 @@
     <h1>Posts</h1>
     <ul>
         {% for post in page_obj %}
-            <li>
-                <strong>{{ post.title }}</strong><br>
-                {{ post.content }}<br>
-                {% if post.author == user %}
-                    <p><strong>Your Post</strong></p>
-                {% endif %}
-                <small>Created at: {{ post.created_at }}</small>
-                <a href="{% url 'edit_post' post.pk %}">Edit</a>
-                <a href="{% url 'delete_post' post.pk %}">Delete</a>
-            </li>
+        <li>
+            <a href="{% url 'post_detail' post.pk %}">
+                <strong>{{ post.title }}</strong>
+            </a>
+            <br>
+            {{ post.content }}
+            <br>
+            {% if post.author == user %}
+                <p><strong>Your Post</strong></p>
+            {% endif %}
+            <small>Created at: {{ post.created_at }}</small>
+            <a href="{% url 'edit_post' post.pk %}">Edit</a>
+            <a href="{% url 'delete_post' post.pk %}">Delete</a>
+        </li>
         {% endfor %}
     </ul>
 

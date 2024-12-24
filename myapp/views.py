@@ -64,7 +64,7 @@ def edit_post(request, pk):
             return redirect('home')
     else:
         form = PostForm(instance=post)
-    return render(request, 'edit_post.html', {'form': form})
+    return render(request, 'myapp/edit_post.html', {'form': form})
 
 
 @login_required
@@ -75,7 +75,7 @@ def delete_post(request, pk):
     if request.method == 'POST':
         post.delete()
         return redirect('home')
-    return render(request, 'delete_post.html', {'post': post})
+    return render(request, 'myapp/delete_post.html', {'post': post})
 
 
 def post_detail(request, pk):
